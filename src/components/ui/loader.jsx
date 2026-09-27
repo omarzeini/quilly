@@ -22,6 +22,7 @@ const Img = styled.img`
   width: 150px;
   height: 150px;
   animation: scale-animation 0.4s linear infinite alternate-reverse;
+  border-radius: 10px;
 
   @keyframes scale-animation {
     from {

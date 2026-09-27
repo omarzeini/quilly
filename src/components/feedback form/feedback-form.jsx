@@ -361,7 +361,7 @@ const FeedbackForm = () => {
         <input
           type="hidden"
           name="_subject"
-          value={`${feedbackType} from Trendi-blog`}
+          value={`${feedbackType} from quilly`}
         />
         <MessageContainer className="message-container">
           <label htmlFor="feedback-field">

@@ -5,8 +5,8 @@ const Nav = () => {
   return (
     <nav>
       <div>
-        <img src={logo} alt="App logo" />{" "}
-        <p style={{ whiteSpace: "nowrap" }}>Trendi-blog</p>
+        <img src={logo} style={{borderRadius: "5px"}} alt="App logo" />{" "}
+        <p style={{ whiteSpace: "nowrap" }}>quilly</p>
       </div>
       <ul>
         <li>

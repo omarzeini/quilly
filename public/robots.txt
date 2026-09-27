@@ -12,4 +12,4 @@ Disallow: /app/trending
 Disallow: /app/bookmark
 
 
-Sitemap: https://trendi-blog.omarspace.com/sitemap.xml
+Sitemap: https://quilly.omarspace.com/sitemap.xml

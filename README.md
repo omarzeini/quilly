@@ -66,7 +66,7 @@ Trendi Blog is a feature-rich blogging application where users can create, edit,
 ```bash
 git clone https://github.com/Oumarzeini/trendi-blog.git
 
-cd trendi-blog
+cd quilly
 ```
 
 ## Install dependencies
@@ -243,7 +243,7 @@ https://github.com/Oumarzeini
 
 ## Live Demo
 
-https://trendi-blog.omarspace.com
+https://quilly.omarspace.com
 
 ---
 

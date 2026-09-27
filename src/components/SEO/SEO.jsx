@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 
 const SITE_NAME = "Trendi blog";
-const SITE_URL = "https://trendi-blog.omarspace.com";
+const SITE_URL = "https://quilly.omarspace.com";
 
 const SEO = ({title, description, image, url, type ="website"}) => {
     const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} | Discover, Read and Share`;
