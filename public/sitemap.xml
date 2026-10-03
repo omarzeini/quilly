@@ -3,41 +3,59 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
 >
   <url>
-    <loc>https://trendi-blog.omarspace.com/</loc>
+    <loc>https://quilly.omarspace.com/</loc>
   </url>
 
   <url>
-    <loc>https://trendi-blog.omarspace.com/app</loc>
+    <loc>https://quilly.omarspace.com/app</loc>
   </url>
-
-  
 
   
   <url>
-    <loc>https://trendi-blog.omarspace.com/app/profile/oumaribnzeini7</loc>
+    <loc>https://quilly.omarspace.com/app/post/عاصمة-البطاريات-الأفريقية-التي-لا-تستطيع-حل-مشكلة-القمامة-لديها-39</loc>
+    <lastmod>2026-09-20T23:14:05.383Z</lastmod>
   </url>
   <url>
-    <loc>https://trendi-blog.omarspace.com/app/profile/oumarazawadi7</loc>
+    <loc>https://quilly.omarspace.com/app/post/the-african-battery-capital-that-can-t-solve-it-s-garbage-problem-37</loc>
+    <lastmod>2026-09-20T20:47:17.122Z</lastmod>
   </url>
   <url>
-    <loc>https://trendi-blog.omarspace.com/app/profile/omar_codes&amp;</loc>
+    <loc>https://quilly.omarspace.com/app/post/a-couple-of-months-ago-trendi-blog-was-just-another-project-idea-now-what-36</loc>
+    <lastmod>2026-08-22T09:34:50.208Z</lastmod>
+  </url>
+
+  
+  <url>
+    <loc>https://quilly.omarspace.com/app/profile/oumaribnzeini7</loc>
   </url>
   <url>
-    <loc>https://trendi-blog.omarspace.com/app/profile/afrozone_kenitra</loc>
+    <loc>https://quilly.omarspace.com/app/profile/test</loc>
   </url>
   <url>
-    <loc>https://trendi-blog.omarspace.com/app/profile/kenitracoder</loc>
+    <loc>https://quilly.omarspace.com/app/profile/wexe</loc>
   </url>
   <url>
-    <loc>https://trendi-blog.omarspace.com/app/profile/kenitracoder_3629</loc>
+    <loc>https://quilly.omarspace.com/app/profile/write_about_it</loc>
   </url>
   <url>
-    <loc>https://trendi-blog.omarspace.com/app/profile/keniaccess59</loc>
+    <loc>https://quilly.omarspace.com/app/profile/oumarazawadi7</loc>
   </url>
   <url>
-    <loc>https://trendi-blog.omarspace.com/app/profile/oumarzeini77coder</loc>
+    <loc>https://quilly.omarspace.com/app/profile/omar_codes&amp;</loc>
   </url>
   <url>
-    <loc>https://trendi-blog.omarspace.com/app/profile/techy_writer!</loc>
+    <loc>https://quilly.omarspace.com/app/profile/afrozone_kenitra</loc>
+  </url>
+  <url>
+    <loc>https://quilly.omarspace.com/app/profile/kenitracoder</loc>
+  </url>
+  <url>
+    <loc>https://quilly.omarspace.com/app/profile/kenitracoder_3629</loc>
+  </url>
+  <url>
+    <loc>https://quilly.omarspace.com/app/profile/keniaccess59</loc>
+  </url>
+  <url>
+    <loc>https://quilly.omarspace.com/app/profile/oumarzeini77coder</loc>
   </url>
 </urlset>

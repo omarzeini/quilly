@@ -37,9 +37,9 @@ const AuthPage = () => {
         <Notify />
         <section className="logoSection">
           <figure>
-            <img loading="lazy" src={logo} alt="" />
+            <img loading="lazy" style={{borderRadius: "10px"}} src={logo} alt="" />
           </figure>
-          <p>Read, write and connect on the go.</p>
+          <p style={{color: "var(--primary)"}}>Read, write and connect on the go.</p>
         </section>
 
         {showSetName ?

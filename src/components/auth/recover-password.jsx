@@ -156,7 +156,7 @@ const RecoverPassword = ({ setShowRecover }) => {
   const [isSendButtonDisabled, setIsSenddButtonDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  //const isValidEmail = () => {};
+  
 
   const handleSubmit = async () => {
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -176,7 +176,7 @@ const RecoverPassword = ({ setShowRecover }) => {
       setLoading(true);
       try {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: "http://192.168.56.1:3000/auth/update-password",
+          redirectTo: "https://quilly.omarspace.com/auth/update-password",
         });
         if (error) {
           throw error;
@@ -186,8 +186,8 @@ const RecoverPassword = ({ setShowRecover }) => {
           setIsSenddButtonDisabled(true);
         }
       } catch (err) {
-        setShowErr(true);
         setErrMsg(`An error occured, ${err} , Please try again`);
+        setShowErr(true);
       } finally {
         setLoading(false);
       }

@@ -60,6 +60,7 @@ const StyledStat = styled.div`
 
   & .icon-container {
     padding: 5px;
+    padding-inline: 8px;
     width: fit-content;
     height: fit-content;
     background-color: var(--icon-container);

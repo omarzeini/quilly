@@ -5,7 +5,7 @@ import Post from "../../components/post/Post";
 // ICONS
 import Menu from "../../icons/Menu";
 import MenuClose from "../../icons/MenuClose";
-import Trusted from "../..//icons/trusted-icon"
+import Trusted from "../..//icons/trusted-icon";
 import RightArrow from "../../icons/RightArrow";
 import AccountAdd from "../../icons/AccountAdd";
 import Pen from "../../icons/Pen";
@@ -16,59 +16,82 @@ import X from "../../icons/X";
 import Instagram from "../../icons/Instagram";
 import Linkedin from "../../icons/LinkedIn";
 import Sun from "../../icons/sun";
+import Eye from "../../icons/Eye";
+import Heart from "../../icons/Heart";
+import Comment from "../../icons/Comment";
+import Save from "../../icons/global-bookmark";
 // IMAGES
 import logo from "../../images/logo.png";
-import editorPreview from "../../images/editor preview.jpg";
+import writingIllustration from "../../images/writing-illustration.png";
+import statsIllustration from "../../images/stats-illustration.png";
 // HOOKS
 import useWindowSize from "../../hooks/useWindowSize";
 import useDarkMode from "../../hooks/useDarkMode";
 // REACT & OTHER
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import Loader from "../../components/ui/loader";
 import AlertIcon from "../../icons/alert-icon";
 
 const LandingPage = () => {
-  const [menuIcon, setMenuIcon] = useState(true);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [visibleElements, setVisibleElements] = useState({});
-  const elementRefs = useRef({});
+  // const [menuIcon, setMenuIcon] = useState(true);
+  // const [menuOpen, setMenuOpen] = useState(false);
+  // const [visibleElements, setVisibleElements] = useState({});
+  // const elementRefs = useRef({});
+  // const { width } = useWindowSize();
+  // useEffect(() => {
+  //   const callback = (entries) => {
+  //     entries.forEach((entry) => {
+  //       if (entry.isIntersecting) {
+  //         setVisibleElements((prev) => ({
+  //           ...prev,
+  //           [entry.target.dataset.id]: true,
+  //         }));
+  //       }
+  //     });
+  //   };
 
-  const { width } = useWindowSize();
+  //   const options = {
+  //     root: null,
+  //     rootMargin: "0px",
+  //     threshold: 0.1,
+  //   };
+
+  //   const observer = new IntersectionObserver(callback, options);
+
+  //   const currentElements = Object.values(elementRefs.current);
+
+  //   currentElements.forEach((el) => {
+  //     if (el) observer.observe(el);
+  //   });
+
+  //   return () => {
+  //     currentElements.forEach((el) => {
+  //       if (el) observer.unobserve(el);
+  //     });
+  //   };
+  // }, []);
+
+  const [scrollPercentage, setScrollPercentage] = useState(0);
 
   useEffect(() => {
-    const callback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setVisibleElements((prev) => ({
-            ...prev,
-            [entry.target.dataset.id]: true,
-          }));
-        }
-      });
+    const handleScroll = () => {
+      const scrollableHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const percentage = scrollableHeight > 0
+        ? (window.scrollY / scrollableHeight) * 100
+        : 0;
+
+      setScrollPercentage(percentage);
     };
 
-    const options = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.1,
-    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
 
-    const observer = new IntersectionObserver(callback, options);
-
-    const currentElements = Object.values(elementRefs.current);
-
-    currentElements.forEach((el) => {
-      if (el) observer.observe(el);
-    });
-
-    return () => {
-      currentElements.forEach((el) => {
-        if (el) observer.unobserve(el);
-      });
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
 
   const darkMode = useStoreState((state) => state.theme.darkMode);
   const setDarkMode = useStoreActions((actions) => actions.theme.setDarkMode);
@@ -77,235 +100,53 @@ const LandingPage = () => {
 
   const navigate = useNavigate();
 
-  // const posts = [
-  //   {
-  //     id: 1,
-  //     image:
-  //       "https://images.pexels.com/photos/158063/bellingrath-gardens-alabama-landscape-scenic-158063.jpeg",
-  //     category: "Lifestyle",
-  //     created_at: "2026-05-13 20:13:26.345032+00",
-  //     title: "The Truth About Digital Nomadism in 2024",
-  //     body: "It's not all beaches and laptops. We dive deep into the challenges of maintaining a career while traveling the globe.",
-
-  //     profiles: {
-  //       full_name: "Elena Rodriguez",
-  //       avatar: logo,
-  //       username: "E_rodri",
-  //       likes: 1240,
-  //       comments: 88,
-  //     },
-  //   },
-
-  //   {
-  //     id: 2,
-  //     image: "https://images.pexels.com/photos/205316/pexels-photo-205316.png",
-  //     category: "Tech",
-  //     created_at: "2026-05-13 20:13:26.345032+00",
-  //     title: "Will AI Replace the Human Touch in Creative Writing?",
-  //     body: "Exploring the delicate balance between algorithmic efficiency and the messy, beautiful reality of human emotion.",
-
-  //     profiles: {
-  //       full_name: "James Wilson",
-  //       avatar: logo,
-  //       username: "james_23",
-  //       likes: 3500,
-  //       comments: 245,
-  //     },
-  //   },
-  //   {
-  //     id: 3,
-  //     image:
-  //       "https://images.pexels.com/photos/5439453/pexels-photo-5439453.jpeg",
-  //     category: "Business",
-  //     created_at: "2026-05-13 20:13:26.345032+00",
-  //     title: "Bootstrapping to $1M: My Three Year Journey",
-  //     body: "Raw data, failed experiments, and the one strategy that actually worked when everything else was falling apart.",
-
-  //     profiles: {
-  //       full_name: "Marcus Thorne",
-  //       avatar: logo,
-  //       username: "MT_writes",
-  //       likes: 4200,
-  //       comments: 312,
-  //     },
-  //   },
-  // ];
-
-  const curatedPosts = [
-    {
-      id: 1,
-      user_id: "8ce6e6f5-65db-4cf1-9d88-2fc436d11913",
-      title: "When Silicon Learns to Sleep",
-      body: 'For decades, computer scientists assumed that artificial intelligence only required continuous runtime to optimize its neural networks. However, a groundbreaking study from a leading research lab recently revealed an unexpected anomaly: advanced deep-learning models perform up to 30% better when subjected to artificial "sleep" cycles. When left idle with their inputs cut off, the algorithms began generating chaotic, self-assembling data structures that looked remarkably like human dreams. This wasn\'t useless noise; the AI was actively pruning redundant pathways and consolidating memories from its daytime training sessions. Without these periods of rest, the systems suffered from "hallucinatory degradation," essentially going data-mad from information overload. It turns out that efficiency isn\'t just about constant processing power; it\'s about the elegance of the pause. As we push closer to true artificial general intelligence, the line between biological biology and digital architecture continues to blur. Code, like the mind, apparently needs to rest to remember who it is.',
-      category: "Technology & AI",
-      image_url:
-        "https://gjimpeijrkmzhmyrasjo.supabase.co/storage/v1/object/public/blog-images/blogs/8ce6e6f5-65db-4cf1-9d88-2fc436d11913/1779391935005-trendi-blog%20logo%20as%20png.png",
-      created_at: "2026-05-19T20:01:51.299377+00:00",
-      profiles: {
-        avatar:
-          "avatars/8ce6e6f5-65db-4cf1-9d88-2fc436d11913-1778676915140/avatar.png",
-        username: "techy_writer!",
-        full_name: "omar zeini",
-      },
-      likes: [],
-      comments: [],
-    },
-    {
-      id: 2,
-      user_id: "8ce6e6f5-65db-4cf1-9d88-2fc436d11913",
-      title: "The Forgotten Architecture of the Forest Floor",
-      body: "Beneath the fallen leaves of the Pacific Northwest lies a massive, subterranean metropolis built entirely out of mycelium. While we often admire the mushrooms pushing through the soil, they are merely the skyscrapers of a vast, interconnected fungal network that spans for miles. This underground web acts as a biological internet, allowing trees to communicate, share nutrients, and even warn each other of impending pest attacks. If a birch tree is starving, the network diverts carbon from a nearby Douglas fir to keep it alive. It is a masterclass in collective survival, operating completely devoid of central leadership or conscious intent. When a tree dies, its energy is not lost but meticulously redistributed back into the forest ecosystem by these silent architects. Walking through the woods, you aren't just walking among separate trees; you are stepping on the roof of a single, massive living organism. We look to the stars for complex networks, yet the most intricate system on Earth is right beneath our boots.",
-      category: "Nature & Science",
-      image_url:
-        "https://gjimpeijrkmzhmyrasjo.supabase.co/storage/v1/object/public/blog-images/blogs/8ce6e6f5-65db-4cf1-9d88-2fc436d11913/1779391935005-trendi-blog%20logo%20as%20png.png",
-      created_at: "2026-05-19T20:01:51.299377+00:00",
-      profiles: {
-        avatar:
-          "avatars/8ce6e6f5-65db-4cf1-9d88-2fc436d11913-1778676915140/avatar.png",
-        username: "techy_writer!",
-        full_name: "omar zeini",
-      },
-      likes: [],
-      comments: [],
-    },
-    {
-      id: 3,
-      user_id: "8ce6e6f5-65db-4cf1-9d88-2fc436d11913",
-      title: "The phantom Oasis of the Sahara",
-      body: 'Deep within the Erg chebbi dunes of Morocco lies a legendary phenomenon known to local nomads the "Shifting Mirage" Unlike typical atmospheric illusions caused by rising heat, this specific oasis has been documented by cartographers for centuries, yet it never appears in the same coordinates twice. Travelers speak of a lush sanctuary filled with date palms and ice-cold freshwater springs that vanishes the moment you step within its perimeter. Modern satellite imagery has attempted to track the anomaly, only to capture sudden, inexplicable distortions in the sand topography. Some geologists theorize it is an underground aquifer venting steam through shifting faults, creating a temporary localized microclimate. Others believe it is a psychological echo shared by those dehydrated by the desert sun. Whatever the truth, the desert guards its secret fiercely. To find it is a matter of pure, terrifying luck; to lose it is the rule. The sands always reset, leaving nothing but footprints.  ',
-      category: "Travel & Mystery",
-      image_url:
-        "https://gjimpeijrkmzhmyrasjo.supabase.co/storage/v1/object/public/blog-images/blogs/8ce6e6f5-65db-4cf1-9d88-2fc436d11913/1779391935005-trendi-blog%20logo%20as%20png.png",
-      created_at: "2026-05-19T20:01:51.299377+00:00",
-      profiles: {
-        avatar:
-          "avatars/8ce6e6f5-65db-4cf1-9d88-2fc436d11913-1778676915140/avatar.png",
-        username: "techy_writer!",
-        full_name: "omar zeini",
-      },
-      likes: [],
-      comments: [],
-    },
-  ];
-
+  
   return (
     <>
       <header className="LPHeader">
-        {width > 933 ?
-          <>
-            <Nav />
-            <div className="authBtnsContainer">
-              <button onClick={() => navigate("/auth")} className="signInBtn">
-                Sign in
-              </button>
-              <span
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  setDarkMode(!darkMode);
-                }}
-              >
-                <Sun height={"20px"} width={"20px"} color={`var(--text)`} />
-              </span>
-            </div>
-          </>
-        : <>
-            <div
+       
+        <>
+          <div
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/")}
+            className="logoContainer"
+          >
+            <img
+              style={{ borderRadius: "5px" }}
+              loading="lazy"
+              src={logo}
+              alt=""
+            />
+            <p>quilly</p>
+          </div>
+
+          <div className="authBtnsContainer">
+            <button onClick={() => navigate("/auth")} className="signInBtn">
+              Sign in
+            </button>
+            <span
               style={{ cursor: "pointer" }}
-              onClick={() => navigate("/")}
-              className="logoContainer"
+              onClick={() => {
+                setDarkMode(!darkMode);
+              }}
             >
-              <img style={{borderRadius: "5px"}} loading="lazy" src={logo} alt="" />
-              <p>quilly</p>
-            </div>
+              <Sun height={"20px"} width={"20px"} color={`var(--text)`} />
+            </span>
+          </div>
+        </>
 
-            <div className="authBtnsContainer">
-              <button onClick={() => navigate("/auth")} className="signInBtn">
-                Sign in
-              </button>
-              <span
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  setDarkMode(!darkMode);
-                }}
-              >
-                <Sun height={"20px"} width={"20px"} color={`var(--text)`} />
-              </span>
-            </div>
-
-            {menuIcon ?
-              <span
-                onClick={() => {
-                  setMenuIcon(!menuIcon);
-                  setMenuOpen(true);
-                }}
-                className="menuIconSpan"
-              >
-                <Menu
-                  height={"40px"}
-                  width={"40px"}
-                  color={"rgb(55,136,250)"}
-                />
-              </span>
-            : <span
-                onClick={() => {
-                  setMenuIcon(!menuIcon);
-                  setMenuOpen(false);
-                }}
-                className="menuIconSpan"
-              >
-                <MenuClose
-                  height={"40px"}
-                  width={"40px"}
-                  color={"rgb(55,136,250)"}
-                />
-              </span>
-            }
-
-            <ul className={menuOpen ? "navMenu ShowNavMenu" : "navMenu"}>
-              <li
-                onClick={() => {
-                  setMenuIcon(!menuIcon);
-                  setMenuOpen(false);
-                }}
-              >
-                <a href="#trending-stories">Trending Stories</a>
-              </li>
-
-              <li
-                onClick={() => {
-                  setMenuIcon(!menuIcon);
-                  setMenuOpen(false);
-                }}
-              >
-                <a href="#how-it-works">How It Works</a>
-              </li>
-
-              <li
-                onClick={() => {
-                  setMenuIcon(!menuIcon);
-                  setMenuOpen(false);
-                }}
-              >
-                <a href="#what-people-say">What People say</a>
-              </li>
-
-              <li
-                onClick={() => {
-                  setMenuIcon(!menuIcon);
-                  setMenuOpen(false);
-                }}
-              >
-                <a href="#news-letter">News Letter</a>
-              </li>
-            </ul>
-          </>
-        }
       </header>
+      <div className="scroll-container">
+        <div
+          className="scroll-bar"
+          style={{ width: `${scrollPercentage}%` }}
+        ></div>
+      </div>
 
       <main className="LPMain">
         <section className="heroSection">
           <div className="heroTextContainer">
-            <p className="label">
+            {/* <p className="label">
               {" "}
               <Trusted
                 height={"15px"}
@@ -313,15 +154,12 @@ const LandingPage = () => {
                 color={`var(--text)`}
               />{" "}
               Trusted By Thousands of Writers
-            </p>
-            <h2>
-              Your Stories deserve a <span className="trendy">trendy</span>{" "}
-              home.
-            </h2>
+            </p> */}
+            <h2>Blogging reimagined for the social era.</h2>
             <p className="heroParagraph">
-              Join quilly to share your ideas, connect with thousands of
-              readers, and turn your passion for writing into a beautiful
-              digital reality.
+              Create, publish, and engage. <strong>quilly</strong> gives writers
+              a simple way to share ideas and build a community around their
+              work.
             </p>
 
             <div className="CTABtnsContainer">
@@ -330,276 +168,306 @@ const LandingPage = () => {
                 className="btn1 animate__zoomOutRight"
               >
                 Start Writing Free{" "}
-                <RightArrow height={"20px"} width={"20px"} color="white" />{" "}
               </button>
-              {/* <button className="btn2">Explore Stories</button> */}
+              <button className="btn2">Explore Feed</button>
             </div>
           </div>
 
-          <figure className="bloggingImageFigure">
-            <img src={editorPreview} fetchPriority="high" alt="" />
-          </figure>
+          {/* <img  className="preview-image" src={profilePreview} fetchPriority="high" alt="" /> */}
+          <img
+            src={writingIllustration}
+            alt="writing-illustration"
+            className="writing-illustration"
+          />
         </section>
 
-        {/* {width < 768 && (
-            <div className="CTABtnsContainer">
-            <button
-              onClick={() => navigate("/auth")}
-              className="btn1 animate__zoomOutRight"
-            >
-              Start Writing Free{" "}
-              <RightArrow height={"20px"} width={"20px"} color="white" />{" "}
-            </button>
-            <button className="btn2">Explore Stories</button>
+        <section id="trending-stories" className="creation-flow-section">
+          <div className="creation-section-header">
+            <h3>The Creation Experience</h3>
+            <p>Everything you need to turn a thought into a published story.</p>
           </div>
-        )} */}
 
-        <section id="trending-stories" className="curatedStoriesSection">
-          <h3>Editor's choice</h3>
-          <p>
-            carefully curated stories from our community that are trending now.
-          </p>
-
-          <div className="storiesContainer">
-            {!curatedPosts ?
-              <Loader />
-            : curatedPosts.map((post) => (
-                <div
-                  ref={(el) => (elementRefs.current[`post-${post.id}`] = el)}
-                  data-id={`post-${post.id}`}
-                  className={
-                    visibleElements[`post-${post.id}`] ?
-                      "fading-elements visible"
-                    : "fading-elements"
-                  }
-                  key={post.id}
+          <div className="creation-flows-container">
+            <div className="creation-flow-card ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="26"
+                height="26"
+                viewBox="0 0 256 256"
+              >
+                <g
+                  id="galaEditor0"
+                  fill="none"
+                  stroke="rgb(55, 136, 250)"
+                  strokeDasharray="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeMiterlimit="4"
+                  strokeOpacity="1"
+                  strokeWidth="16"
                 >
-                  {" "}
-                  <Post isMD={false} variant="compact" post={post} />
-                </div>
-              ))
-            }
-          </div>
-        </section>
-
-        <section id="how-it-works" className="howItWorksSection">
-          <h3 className="heading">How quilly Works</h3>
-          <p className="subHeading">
-            Get started in minutes and join the world's most vibrant writing
-            community.
-          </p>
-
-          <div className="stepsContainer">
-            <div
-              ref={(el) => (elementRefs.current["step-1"] = el)}
-              data-id="step-1"
-              className={
-                visibleElements["step-1"] ?
-                  "fading-elements visible"
-                : "fading-elements"
-              }
-            >
-              <div className="step">
-                <span className="iconContainer">
-                  <span className="stepCount">1</span>
-                  <AccountAdd
-                    height={"30px"}
-                    width={"30px"}
-                    color={"rgb(55, 136, 250)"}
+                  <path id="galaEditor1" d="m 16,64 224.93778,0.09256" />
+                  <path
+                    id="galaEditor2"
+                    d="M 48,16 H 207.91114 C 225.62929,16 240,30.281849 240,48 v 160 c 0,17.71816 -14.28185,32 -32,32 H 48 C 30.281848,240 16.069099,225.73073 16.06221,208.01257 L 16,48 C 15.993112,30.281851 30.281848,16 48,16 Z"
                   />
-                </span>
-                <p className="stepName">Create Account</p>
-                <p className="stepDescription">
-                  Create your account in minutes, choose your username, and set up your writer profile so you can start sharing your work.
-                </p>
-              </div>
+                  <path id="galaEditor3" d="M 191.96444,64.092555 192,16" />
+                  <path id="galaEditor4" d="M 48.044437,112.06589 H 80.02666" />
+                  <path
+                    id="galaEditor5"
+                    d="M 48.044437,144.04812 H 175.97333"
+                  />
+                  <path
+                    id="galaEditor6"
+                    d="M 48.044437,176.03034 H 127.99999"
+                  />
+                  <path id="galaEditor7" d="M 48.044437,208.01256 H 80.02666" />
+                </g>
+              </svg>
+              <p>Social style editor</p>
+              <p>
+                Write like you post on social media. A distraction-free canvas
+                makes publishing feel effortless.
+              </p>
             </div>
-
-            <div
-              ref={(el) => (elementRefs.current["step-2"] = el)}
-              data-id="step-2"
-              className={
-                visibleElements["step-2"] ?
-                  "fading-elements visible"
-                : "fading-elements"
-              }
-            >
-              <div className="step">
-                <span className="iconContainer">
-                  <span className="stepCount">2</span>
-                  <Pen
-                    height={"30px"}
-                    width={"30px"}
-                    color={"rgb(55, 136, 250)"}
-                  />
-                </span>
-                <p className="stepName">Write & Publish</p>
-                <p className="stepDescription">
-                  Write your post in the clean editor, add a title, cover image, and category, then publish it to your audience with just a few clicks.
-                </p>
-              </div>
+            <div className="creation-flow-card ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="26"
+                height="26"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill="rgb(55, 136, 250)"
+                  d="M9.967 8.193L5 13h3v6h4v-6h3L9.967 8.193zM18 1H2C.9 1 0 1.9 0 3v12c0 1.1.9 2 2 2h4v-2H2V6h16v9h-4v2h4c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zM2.5 4.25a.75.75 0 1 1 0-1.5a.75.75 0 0 1 0 1.5zm2 0a.75.75 0 1 1 0-1.5a.75.75 0 0 1 0 1.5zM18 4H6V3h12.019L18 4z"
+                />
+              </svg>
+              <p>One tap publishing</p>
+              <p>
+                Hit publish and your story reaches readers instantly. No
+                settings, No waiting
+              </p>
             </div>
-
-            <div
-              ref={(el) => (elementRefs.current["step-3"] = el)}
-              data-id="step-3"
-              className={
-                visibleElements["step-3"] ?
-                  "fading-elements visible"
-                : "fading-elements"
-              }
-            >
-              <div className="step">
-                <span className="iconContainer">
-                  <span className="stepCount">3</span>
-                  <Community
-                    height={"30px"}
-                    width={"30px"}
-                    color={"rgb(55, 136, 250)"}
-                  />
-                </span>
-                <p className="stepName">Grow Community</p>
-                <p className="stepDescription">
-                  Interact with readers through likes and comments, and see your
-                  influence grow across the platform.
-                </p>
-              </div>
+            <div className="creation-flow-card ">
+              {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgb(55, 136, 250)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-heart preview-icon"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg> */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="26"
+                height="26"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="rgb(55, 136, 250)"
+                  d="M2.5 7.57C2.5 4.804 4.927 2.5 8 2.5c2.275 0 4.208 1.27 5.048 3.053a.5.5 0 0 0 .904-.426C12.94 2.978 10.645 1.5 8 1.5c-3.554 0-6.5 2.683-6.5 6.07c0 1.3.438 2.501 1.177 3.485l-.754 2.216c-.283.834.645 1.556 1.384 1.079l1.964-1.27q.533.232 1.113.37a.5.5 0 1 0 .232-.972a5.8 5.8 0 0 1-1.168-.416l-.253-.123l-2.259 1.46l.865-2.544l-.178-.215A4.8 4.8 0 0 1 2.5 7.57m12.49 4.3c.545-.403 1.265-.445 1.815-.278c1.428.436 1.859 2.015 1.47 3.184c-.3.923-.966 1.597-1.594 2.033a5 5 0 0 1-.916.503c-.263.108-.542.188-.765.188s-.5-.08-.763-.187a4.8 4.8 0 0 1-.912-.5c-.626-.436-1.29-1.11-1.6-2.034c-.39-1.174.043-2.738 1.465-3.186l.005-.001c.563-.171 1.256-.106 1.795.278m1.524.678c-.42-.127-.882-.013-1.103.306l-.393.57l-.417-.553c-.25-.33-.715-.443-1.114-.323c-.736.233-1.081 1.108-.813 1.913c.22.656.707 1.172 1.223 1.531c.255.178.507.31.718.395q.158.064.267.091l.086.018q.03.005.032.004l.031-.003l.087-.019q.109-.028.27-.092a4 4 0 0 0 .723-.398c.519-.36 1.003-.876 1.213-1.522l.001-.004c.27-.81-.08-1.69-.81-1.914"
+                />
+                <path
+                  fill="rgb(55, 136, 250)"
+                  d="M15 7.5c-4.107 0-7.5 3.1-7.5 7s3.393 7 7.5 7c1.14 0 2.222-.237 3.191-.663l2.33 1.505c.796.515 1.795-.264 1.49-1.162l-.894-2.628A6.66 6.66 0 0 0 22.5 14.5c0-3.9-3.393-7-7.5-7m-6.5 7c0-3.28 2.875-6 6.5-6s6.5 2.72 6.5 6a5.68 5.68 0 0 1-1.33 3.636l-.178.216l1.072 3.15l-2.797-1.807l-.253.122c-.9.436-1.924.683-3.014.683c-3.625 0-6.5-2.72-6.5-6m-3-9a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 10a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1A.5.5 0 0 1 5 10m.5-2.5a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1z"
+                />
+              </svg>
+              <p>Engagement</p>
+              <p>
+                Likes, comments and saves let readers respond the moment they
+                finish reading.
+              </p>
             </div>
           </div>
         </section>
 
-        <section id="what-people-say" className="opinionsSection">
-          <h3>What the World is Saying</h3>
-
-          <div className="opinionsContainer">
-            <div
-              ref={(el) => (elementRefs.current["opinion-1"] = el)}
-              data-id="opinion-1"
-              className={
-                visibleElements["opinion-1"] ?
-                  "opinionContainer fading-elements visible"
-                : "opinionContainer fading-elements"
-              }
-            >
-              <div className="flashIconsContainer">
-                <Flash height={"20px"} width={"20px"} color={"gold"} />
-                <Flash height={"20px"} width={"20px"} color={"gold"} />
-                <Flash height={"20px"} width={"20px"} color={"gold"} />
-                <Flash height={"20px"} width={"20px"} color={"gold"} />
-                <Flash height={"20px"} width={"20px"} color={"gold"} />
-              </div>
-              <p className="opinionText">
-                "The interface is so clean it actually makes me want to write
-                more. Best blogging platform by far."
-              </p>
-              <div className="opinionProfileContainer">
-                <figure>
-                  <img
-                    loading="lazy"
-                    src="https://images.pexels.com/photos/7970671/pexels-photo-7970671.jpeg"
-                    alt=""
-                  />
-                </figure>
-                <div className="nameJobContainer">
-                  <p className="opinionName">Liam Neeson</p>
-                  <p className="opinionJob">Content Strategist</p>
-                </div>
-              </div>
-            </div>
-
-            <div
-              ref={(el) => (elementRefs.current["opinion-2"] = el)}
-              data-id="opinion-2"
-              className={
-                visibleElements["opinion-2"] ?
-                  "opinionContainer fading-elements visible"
-                : "opinionContainer fading-elements"
-              }
-            >
-              <div className="flashIconsContainer">
-                <Flash height={"20px"} width={"20px"} color={"gold"} />
-                <Flash height={"20px"} width={"20px"} color={"gold"} />
-                <Flash height={"20px"} width={"20px"} color={"gold"} />
-                <Flash height={"20px"} width={"20px"} color={"gold"} />
-                <Flash height={"20px"} width={"20px"} color={"gold"} />
-              </div>
-              <p className="opinionText">
-                "I found my audience within weeks. The community is supportive,
-                engaged, and genuinely curious."
-              </p>
-              <div className="opinionProfileContainer">
-                <figure>
-                  <img
-                    loading="lazy"
-                    src="https://images.pexels.com/photos/7610766/pexels-photo-7610766.jpeg"
-                    alt=""
-                  />
-                </figure>
-                <div className="nameJobContainer">
-                  <p className="opinionName">Isabella Rossi</p>
-                  <p className="opinionJob">Travel Journalist</p>
-                </div>
-              </div>
-            </div>
-            <div
-              ref={(el) => (elementRefs.current["opinion-3"] = el)}
-              data-id="opinion-3"
-              className={
-                visibleElements["opinion-3"] ?
-                  "opinionContainer fading-elements visible"
-                : "opinionContainer fading-elements"
-              }
-            >
-              <div className="flashIconsContainer">
-                <Flash height={"20px"} width={"20px"} color={"gold"} />
-                <Flash height={"20px"} width={"20px"} color={"gold"} />
-                <Flash height={"20px"} width={"20px"} color={"gold"} />
-                <Flash height={"20px"} width={"20px"} color={"gold"} />
-                <Flash height={"20px"} width={"20px"} color={"gold"} />
-              </div>
-              <p className="opinionText">
-                "Finally, a platform that respects the craft of writing without
-                overwhelming it with ads and clutter."
-              </p>
-              <div className="opinionProfileContainer">
-                <figure>
-                  <img
-                    loading="lazy"
-                    src="https://images.pexels.com/photos/3931342/pexels-photo-3931342.jpeg"
-                    alt=""
-                  />
-                </figure>
-                <div className="nameJobContainer">
-                  <p className="opinionName">Thomas Wright</p>
-                  <p className="opinionJob">Philosopher & Poet</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="news-letter" className="newsletterSection">
-          <div className="container">
-            <span className="emailIconSpan"></span>
-            <h3>The Weekly Trendy Digest</h3>
+        <section className="creation-flow-section engagement-section">
+          <div className="creation-section-header">
+            <h3>Engagement Tools</h3>
             <p>
-              Get the bets stories , wrinting tips , and community highlights
-              delivered straight to your inbox every sunday morning. no spam,
-              ever.
+              Build a relationship with every reader through liking, commenting
+              and saving.
             </p>
+          </div>
 
-            <form onSubmit={(e) => e.preventDefault()}>
-              <input type="email" placeholder="Enter your email" />
-              <button className="subscribeBtn">Subscribe</button>
-            </form>
-            <p className="privacyP">
-              By subscribing, you agree to our Privacy Policy and Terms of
-              Service
-            </p>
+          <div className="tools-cards-container">
+            <div className="tool-card">
+              <div className="icon-text-container">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="rgb(55, 136, 250)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-heart preview-icon"
+                >
+                  <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
+                </svg>
+                <p>Like</p>
+              </div>
+
+              <p>Show appreciation with a single tap.</p>
+            </div>
+
+            <div className="tool-card">
+              <div className="icon-text-container">
+                <Comment
+                  width={"24px"}
+                  height={"24px"}
+                  color={"rgb(55, 136, 250)"}
+                />
+                <p>Comment</p>
+              </div>
+              <p>Start conversations beneath any story.</p>
+            </div>
+            <div className="tool-card">
+              <div className="icon-text-container">
+                <Save
+                  width={"24px"}
+                  height={"24px"}
+                  color={"rgb(55, 136, 250)"}
+                />
+                <p>Save</p>
+              </div>
+              <p>Bookmark stories to revisit later.</p>
+            </div>
           </div>
         </section>
 
-        <section className="bottomSection">
+        <section className=" creation-flow-section insights-section">
+          <div className="left-container">
+            <div className="creation-section-header">
+              <h3>Know What Resonates</h3>
+              <p>
+                Track views, likes, reads and comments to understand your
+                audience and keep writing what matters.
+              </p>
+            </div>
+
+            <div className="insights-list-container">
+              <ul>
+                <li>
+                  {" "}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="rgb(55, 136, 250)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-check preview-icon"
+                  >
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>{" "}
+                  Know your total views  
+                </li>
+                <li>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="rgb(55, 136, 250)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-check preview-icon"
+                  >
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>{" "}
+                  Know your total comments  
+                </li>
+                <li>
+                  {" "}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="rgb(55, 136, 250)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-check preview-icon"
+                  >
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>{" "}
+                  Know your total reads  
+                </li>
+                <li>
+                  {" "}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="rgb(55, 136, 250)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-check preview-icon"
+                  >
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>{" "}
+                  Know your total likes  
+                </li>
+                <li>
+                  {" "}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="rgb(55, 136, 250)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-check preview-icon"
+                  >
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>{" "}
+                  Per post views in your profile
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="right-container">
+            <img
+              src={statsIllustration}
+              alt="stats illustrations"
+              width={"200px"}
+              height={"200px"}
+            />
+          </div>
+        </section>
+
+        <div role="button" onClick ={() => navigate("/auth")} className="bottom-cta-container">
+          <p>It takes less than a minute so</p>
+          <button onClick ={() => navigate("/auth")}>
+            {" "}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              viewBox="0 0 512 512"
+            >
+              <path
+                fill="white"
+                d="M492.47 21.938c-82.74-.256-167.442 12.5-242.814 45.093c5.205 13.166 9.578 28.48 13.188 45.532C242.55 97.27 217.167 92.385 194.72 95.5c-46.22 28.432-87.13 66.305-119.44 115.594c25.193 7.756 51.57 22.81 72.845 43.844c-31.87-7.045-68.907-5.895-99.188 3c-13.743 28.688-25.008 60.48-33.343 95.687c128.71-30.668 130.522 3.514 50.75 140.438c16.877 12.614 42.182 13.77 61.906-1.563C134 267.936 231.43 326.246 254.188 354.562c14.288-40.59 34.77-82.54 62.906-126.468c-17.29-14.667-39.21-24.838-63.813-32.375c25.364-5.256 50.91-10.928 74.126-11.22c6.482-.082 12.78.272 18.844 1.156c17.57-24.007 37.408-48.612 59.75-73.97c-12.538-6.31-25.476-11.454-38.125-14.967c17.132-5.76 35.274-8.34 52.844-8.157c2.01.02 4.004.095 6 .187c20.07-21.708 41.927-43.976 65.75-66.813zM426.72 47.28c-130.93 65.394-226.626 162.926-281.784 286.25C172.34 184.41 287.048 84.57 426.72 47.28z"
+              />
+            </svg>{" "}
+            Start Your Writing Journey?
+          </button>
+        </div>
+
+        {/* <div style={{ height: "100vh" }}></div> */}
+
+        {/* <section className="bottomSection">
           <div className="firstContainer">
             <div className="container">
               <h3
@@ -609,8 +477,13 @@ const LandingPage = () => {
                 }}
                 className="heading"
               >
-                <img style={{borderRadius: "5px"}} loading="lazy" src={logo} alt="" />
-              quilly
+                <img
+                  style={{ borderRadius: "5px" }}
+                  loading="lazy"
+                  src={logo}
+                  alt=""
+                />
+                quilly
               </h3>
               <p className="subHeading">
                 The modern home for writers, thinkers, and storytellers. Join a
@@ -688,13 +561,35 @@ const LandingPage = () => {
               </ul>
             </div>
           </div>
-        </section>
+        </section> */}
         <footer className="footer">
-          <div className="container">
+          <h3
+            style={{
+              color: "rgb(55, 136, 250)",
+              fontSize: "1rem",
+            }}
+            className="heading"
+          >
+            <img
+              style={{ borderRadius: "5px" }}
+              loading="lazy"
+              src={logo}
+              alt=""
+            />
+            quilly
+          </h3>
+          <p>
+            © 2026 All rights reserved. Built with love by a creator for
+            creators.
+          </p>
+          <p>Terms</p>
+          <p>Privacy </p>
+
+          {/* <div className="container">
             <div className="rightContainer">
               <p>
-                © 2026 quilly Inc. All rights reserved. Built with love by
-                creators for creators.
+                © 2026 All rights reserved. Built with love by
+                a creator for creators.
               </p>
             </div>
             <div className="statement">
@@ -707,10 +602,10 @@ const LandingPage = () => {
               </p>
             </div>
             <div className="leftContainer">
-              <p>Sitemap</p>
-              <p>Cookie Settings</p>
+              <p>Terms</p>
+              <p>Privacy </p>
             </div>
-          </div>
+          </div> */}
         </footer>
       </main>
     </>
