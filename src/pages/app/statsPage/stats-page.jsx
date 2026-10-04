@@ -31,50 +31,61 @@ const Header = styled.div`
 
 const StatsContainer = styled.div`
   width: 100%;
-  height: 500px;
+  height: fit-content;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content:center;
   align-items: center;
   gap: 20px;
   padding: 20px;
   margin-bottom: 40px;
+  margin-top: 20px;
+
+  @media (min-width: 768px) {
+   margin-top: 50px;
+  }
 `;
 
 const StyledStat = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
+  justify-content: flex-start;
+  align-items: start;
+  gap: 5px;
   padding: 10px;
+  padding-left: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 4px var(--border);
-  width: 150px;
-  height: 150px;
+  // box-shadow: 0 0 4px var(--border);
+  background-color: rgb(235, 242, 254);
+  width: 100%;
+  height: 120px;
 
   @media (min-width: 768px) {
     width: 400px;
-    height: 200px;
+    height: 150px;
   }
 
   & .icon-container {
-    padding: 5px;
-    padding-inline: 8px;
+  
     width: fit-content;
     height: fit-content;
-    background-color: var(--icon-container);
     border-radius: 8px;
+
+    & svg {
+    width: 20px;
+    height: 20px;
+    }
   }
 
   & .stat-number {
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
 
   & .stat-label {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.9rem;
+    color: gray;
   }
 `;
 
@@ -100,7 +111,7 @@ const StatsPage = () => {
     <Main>
       <Header>
         <h2>Your Stats</h2>
-        <p>Track your posts analytics and intraction stats.</p>
+        <p>Track your posts intraction stats.</p>
       </Header>
 
       <StatsContainer>
@@ -108,7 +119,7 @@ const StatsPage = () => {
           <div className="icon-container">
             <span>
               <Eye />
-            </span>
+            </span> 
           </div>
 
           <p className="stat-number">{loading ? "loading..." : `${views}`}</p>

@@ -161,6 +161,7 @@ const LandingPage = () => {
 
           {/* <img  className="preview-image" src={profilePreview} fetchPriority="high" alt="" /> */}
           <img
+            loading="lazy"
             src={writingIllustration}
             alt="writing-illustration"
             className="writing-illustration"
@@ -309,6 +310,7 @@ const LandingPage = () => {
                   width={"24px"}
                   height={"24px"}
                   color={"rgb(55, 136, 250)"}
+                  fill="none"
                 />
                 <p>Save</p>
               </div>
@@ -424,6 +426,7 @@ const LandingPage = () => {
 
           <div className="right-container">
             <img
+              loading="lazy"
               src={statsIllustration}
               alt="stats illustrations"
               width={"200px"}
