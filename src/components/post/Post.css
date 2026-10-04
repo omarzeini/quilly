@@ -175,7 +175,7 @@
     stroke: none;
   }
 }
-
+/* 
 .comments,
 .bookmark {
   fill: #3788fa;
@@ -188,7 +188,7 @@
   & path {
     fill: #3788fa;
   }
-}
+} */
 
 /* COMPACT POST */
 .compact--postContainer {

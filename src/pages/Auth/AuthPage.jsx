@@ -15,7 +15,7 @@ const AuthPage = () => {
   const [authOption, setAuthOption] = useState("signin");
   const [showRecover, setShowRecover] = useState(false);
   const [showSetName, setShowSetName] = useState(false);
-  const isGuest = useStoreState((a) => a.guest.isGuest);
+  const isGuest = useStoreState((s) => s.guest.isGuest);
   const setIsGuest = useStoreActions((a) => a.guest.setIsGuest);
 
   useEffect(() => {

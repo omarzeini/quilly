@@ -22,6 +22,10 @@ const Wraper = styled.div`
   overflow: auto;
   box-shadow: 0 0 6px var(--border);
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   @media (max-width: 768px ) {
     width: 500px;
     height: 500px;

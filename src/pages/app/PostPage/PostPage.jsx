@@ -4,8 +4,7 @@ import "./PostPage.css";
 import Comment from "../../../icons/Comment";
 import Heart from "../../../icons/Heart";
 import Share from "../../../icons/Share";
-import GlobalBookmark from "../../../icons/global-bookmark";
-import FilledBookmark from "../../../icons/filled-global-bookmark";
+import Bookmark from "../../../icons/global-bookmark";
 import profilePlaceholder from "../../../images/profile-placeholder.png";
 import More from "../../../icons/more";
 //  OTHER
@@ -24,6 +23,7 @@ import getPostDescription from "../../../utils/getPostDescription";
 //COMPONENTS
 import Loader from "../../../components/ui/loader";
 import ConfirmationModel from "../../../components/ui/confirmationModel";
+import SharePost from "../../../components/ui/share-post";
 
 //HOOKS
 import useLikes from "../../../hooks/db/useLikes";
@@ -31,7 +31,8 @@ import useAlert from "../../../hooks/useAlert";
 import getUser from "../../../utils/getUser";
 import usePostAnalytics from "../../../hooks/db/usePostAnalytics";
 import useClickOutside from "../../../hooks/useClickOutside";
-import SEO from "../../../components/SEO/SEO"
+import SEO from "../../../components/SEO/SEO";
+import usePostShare from "../../../hooks/db/usePostShare";
 
 const PostPage = () => {
   // const [heartColor, setHeartColor] = useState(false);
@@ -60,6 +61,8 @@ const PostPage = () => {
     (actions) => actions.setShowSignInModel,
   );
   const isGuest = useStoreState((state) => state.guest.isGuest);
+
+  const {sharesCount} = usePostShare();
 
   const commentActionsRef = useRef();
   const commentTextareaRef = useRef();
@@ -209,9 +212,19 @@ const PostPage = () => {
 
   const isBookmarked = bookmarked.some((item) => item?.id === post?.id);
 
-  const handleInvalid = (e) => {
-    e.target.setCustomValidity("But what's your  comment ?.");
+  const handleShareRequest = () => {
+    if (isGuest) {
+      setOverlayOn(true);
+      setShowSignInModel(true);
+      return false;
+    }
+
+    return true;
   };
+
+  // const handleInvalid = (e) => {
+  //   e.target.setCustomValidity("But what's your  comment ?.");
+  // };
 
   const handleInput = (e) => {
     e.target.setCustomValidity("But what's your comment?");
@@ -315,14 +328,13 @@ const PostPage = () => {
   //     .toLowerCase()
   //     .replace(/[^a-z0-9]+/g, "-")
   //     .replace(/(^-|-$)+/g, "");
-    
+
   const slugify = (text) =>
-  text
-    .toLowerCase()
-    .trim()
-    .replace(/[^\p{L}\p{N}]+/gu, "-")
-    .replace(/^-+|-+$/g, "");
-   
+    text
+      .toLowerCase()
+      .trim()
+      .replace(/[^\p{L}\p{N}]+/gu, "-")
+      .replace(/^-+|-+$/g, "");
 
   if (loading) return <Loader />;
   if (!post || !author)
@@ -336,335 +348,358 @@ const PostPage = () => {
       </p>
     );
 
-     const slug =`${slugify(post?.title)}-${post?.id}`
-
-    
+  const slug = `${slugify(post?.title)}-${post?.id}`;
 
   return (
     <>
-    <SEO title={post?.title} description={getPostDescription(post?.body)} url={`/app/post/${slug}`} image={post?.image_url} type="article" />
-    <section className="postPageSection">
-      <div className="content-section">
-        {post.image_url && (
-          <figure className="postImgFigure">
-            <img src={post.image_url} alt="" />
-          </figure>
-        )}
-
-        <h3 dir="auto" id="post-page-title" className="title post-page-title">
-          {post.title}
-        </h3>
-
-        <div className="categoryContainer">
-          <span dir="auto" className="category">
-            {post.category}
-          </span>{" "}
-          <span className="bullet">&bull;</span>{" "}
-          <span className="date">
-            {" "}
-            <ReactTimeAgo date={post.created_at} locale="en" />{" "}
-          </span>
-        </div>
-
-        <div className="userContainer">
-          <Link to={`/app/profile/${author?.username}`}>
-            <figure className="profileImgFigure">
-              <img
-                src={
-                  author?.avatar ?
-                    getAvatarUrl(author.avatar)
-                  : profilePlaceholder
-                }
-                alt=""
-              />
-            </figure>
-          </Link>
-
-          <div className="nameNUsernameContainer">
-            <Link to={`/app/profile/${author?.username}`}>
-              <p className="name">{author.full_name}</p>{" "}
-            </Link>
-            <p className="username">@{author.username}</p>
-          </div>
-        </div>
-
-        <hr />
-
-        <article dir="auto" className="postContent">
-          <ReactMarkdown remarkPlugins={[remarkBreaks]}>
-            {post.body}
-          </ReactMarkdown>
-        </article>
-
-        <div className="commentsAndLikesContainer">
-          <h2>Comments ({comments ? comments.length : 0})</h2>
-
-          <div className="iconsContainer">
-            <span
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                gap: "5px",
-              }}
-              role="button"
-              className="post-page-likes"
-              onClick={() => {
-                if (isGuest) {
-                  setOverlayOn(true);
-                  setShowSignInModel(true);
-                  return;
-                }
-                toggleLike();
-              }}
-            >
-              <Heart
-                width={"25px"}
-                height={"25px"}
-                color={liked ? "#ff4d6d" : "none"}
-              />
-              {likesCount}
-            </span>
-
-            <span className="post-page-comments">
-              <Comment width={"25px"} height={"25px"} color={"black"} />
-              {comments ? comments.length : 0}
-            </span>
-
-            <span
-              onClick={() => {
-                if (isGuest) {
-                  setOverlayOn(true);
-                  setShowSignInModel(true);
-                  return;
-                }
-                toggleBookmark(post);
-              }}
-              style={{
-                cursor: "pointer",
-              }}
-              className="comments bookmark"
-            >
-              {isBookmarked ?
-                <FilledBookmark
-                  width="25px"
-                  height="25px"
-                  color={`var(--primary)`}
-                />
-              : <GlobalBookmark
-                  width="25px"
-                  height="25px"
-                  color={`var(--primary)`}
-                />
-              }
-            </span>
-            {/* <span
-            style={{
-              cursor: "pointer",
-            }}
-            className="comments bookmark"
+      <SEO
+        title={post?.title}
+        description={getPostDescription(post?.body)}
+        url={`/app/post/${slug}`}
+        image={post?.image_url}
+        type="article"
+      />
+      <section className="postPageSection">
+        <p
+          style={{
+            marginBottom: "2rem",
+            fontSize: ".9rem",
+            fontFamily: "system-ui",
+           
+            lineHeight: "1.5"
+          }}
+        >
+          {" "}
+          <Link to={"/app/feed"}
+            
+            style={{ fontWeight: "600", color: "var(--primary)"}}
           >
-            <GlobalBookmark width={"25px"} height={"25px"} color={"black"} />
-          </span> */}
+            Feed
+          </Link>{" "}
+          <span aria-current="page" > &nbsp; {">"} &nbsp; {post.title}{" "}</span>
+         
+        </p>
+        <div className="content-section">
+          {post.image_url && (
+            <figure className="postImgFigure">
+              <img src={post.image_url} alt="" />
+            </figure>
+          )}
+
+          <h3 dir="auto" id="post-page-title" className="title post-page-title">
+            {post.title}
+          </h3>
+
+          <div className="categoryContainer">
+            <span dir="auto" className="category">
+              {post.category}
+            </span>{" "}
+            <span className="bullet">&bull;</span>{" "}
+            <span className="date">
+              {" "}
+              <ReactTimeAgo date={post.created_at} locale="en" />{" "}
+            </span>
           </div>
-        </div>
 
-        <div className="commentsContainer">
-          {commentsLoading && <p>Loading comments...</p>}
-          {!comments || !comments.length ?
-            <p>No comments yet, Be the first to comment!</p>
-          : comments.map((comment) => (
-              <div className="commentContainer" key={comment.id}>
-                <figure className="CommentProfileImgFigure">
-                  <Link to={`/app/profile/${comment.profiles.username}`}>
-                    <img
-                      src={
-                        getAvatarUrl(comment.profiles.avatar) ||
-                        profilePlaceholder
-                      }
-                      alt=""
-                    />
-                  </Link>
-                </figure>
+          <div className="userContainer">
+            <Link to={`/app/profile/${author?.username}`}>
+              <figure className="profileImgFigure">
+                <img
+                  src={
+                    author?.avatar ?
+                      getAvatarUrl(author.avatar)
+                    : profilePlaceholder
+                  }
+                  alt=""
+                />
+              </figure>
+            </Link>
 
-                <div className="nameAndCommentContainer">
-                  <div className="nameAndDateContainer">
-                    <p
-                      onClick={() => {
-                        navigate(`/app/profile/${comment?.profiles?.username}`);
-                      }}
-                      className="name"
-                      style={{ cursor: "pointer" }}
-                    >
-                      {comment?.profiles?.username}
-                    </p>
-                    <p className="date">
-                      <ReactTimeAgo date={comment?.created_at} local={"en"} />
-                    </p>
-                  </div>
+            <div className="nameNUsernameContainer">
+              <Link to={`/app/profile/${author?.username}`}>
+                <p className="name">{author.full_name}</p>{" "}
+              </Link>
+              <p className="username">@{author.username}</p>
+            </div>
+          </div>
 
-                  <div className="commentAndMoreContainer">
-                    {isEditComment && editCommentId === comment.id ?
-                      <EditCommentContainer>
-                        <textarea
-                          dir="auto"
-                          ref={commentTextareaRef}
-                          type="text"
-                          value={editCommentValue}
-                          onChange={(e) => setEditCommentValue(e.target.value)}
-                          disabled={loadingUpdatedComment}
-                        ></textarea>
-                        <div className="btnsContainer">
-                          <button
-                            onClick={() => {
-                              setIsEditComment(false);
-                              setEditCommentFocus(false);
-                            }}
-                            className="cancelEditBtn"
-                          >
-                            Cancel
-                          </button>
+          <hr />
 
-                          <button
-                            onClick={() => {
-                              if (oldComment === editCommentValue) {
-                                setIsUpdateButtonDisabled(true);
-                                return;
-                              }
-                              onUpdate(comment.id, editCommentValue);
-                            }}
-                            disabled={isUpdateButtonDisabled}
-                            className="updateCommentBtn"
-                          >
-                            {loadingUpdatedComment ? "Updating..." : "Update"}
-                          </button>
-                        </div>
-                      </EditCommentContainer>
-                    : <p dir="auto" className="commentContent">
-                        {" "}
-                        {comment.content}{" "}
-                      </p>
-                    }
+          <article dir="auto" className="postContent">
+            <ReactMarkdown remarkPlugins={[remarkBreaks]}>
+              {post.body}
+            </ReactMarkdown>
+          </article>
 
-                    {comment.user_id === user?.id && (
-                      <div
+          <div className="commentsAndLikesContainer">
+            <h2>Comments ({comments ? comments.length : 0})</h2>
+
+            <div className="iconsContainer">
+              <span
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "5px",
+                }}
+                role="button"
+                className="post-page-likes"
+                onClick={() => {
+                  if (isGuest) {
+                    setOverlayOn(true);
+                    setShowSignInModel(true);
+                    return;
+                  }
+                  toggleLike();
+                }}
+              >
+                <Heart
+                  width={"25px"}
+                  height={"25px"}
+                  color={liked ? "red" : "var(--text)"}
+                  fill={liked ? "red" : "none"}
+                />
+                {likesCount}
+              </span>
+
+              <span className="post-page-comments">
+                <Comment width={"25px"} height={"25px"} color={"var(--text)"} />
+                {comments ? comments.length : 0}
+              </span>
+
+              <span
+                onClick={() => {
+                  if (isGuest) {
+                    setOverlayOn(true);
+                    setShowSignInModel(true);
+                    return;
+                  }
+                  toggleBookmark(post);
+                }}
+                style={{
+                  cursor: "pointer",
+                }}
+                className="comments bookmark"
+              >
+                <Bookmark width={"25px"} height={"25px"} color={"var(--text"} fill={isBookmarked ? "var(--text)" : "none"} />
+                
+              </span>
+
+             
+              <SharePost
+                blogId={post.id}
+                initialShares={post.shares}
+                title={post.title}
+                url={`${window.location.origin}/app/post/${slug}`}
+                onShareRequest={handleShareRequest}
+              />
+             
+          
+            </div>
+          </div>
+
+          <div className="commentsContainer">
+            {commentsLoading && <p>Loading comments...</p>}
+            {!comments || !comments.length ?
+              <p>No comments yet, Be the first to comment!</p>
+            : comments.map((comment) => (
+                <div className="commentContainer" key={comment.id}>
+                  <figure className="CommentProfileImgFigure">
+                    <Link to={`/app/profile/${comment.profiles.username}`}>
+                      <img
+                        src={
+                          getAvatarUrl(comment.profiles.avatar) ||
+                          profilePlaceholder
+                        }
+                        alt=""
+                      />
+                    </Link>
+                  </figure>
+
+                  <div className="nameAndCommentContainer">
+                    <div className="nameAndDateContainer">
+                      <p
                         onClick={() => {
-                          setShowCommentActions((prev) =>
-                            prev === null ? comment.id : null,
+                          navigate(
+                            `/app/profile/${comment?.profiles?.username}`,
                           );
                         }}
+                        className="name"
                         style={{ cursor: "pointer" }}
                       >
-                        <More
-                          height={"20px"}
-                          width={"20px"}
-                          color={`var(--text)`}
-                        />
-                      </div>
-                    )}
+                        {comment?.profiles?.username}
+                      </p>
+                      <p className="date">
+                        <ReactTimeAgo date={comment?.created_at} local={"en"} />
+                      </p>
+                    </div>
 
-                    <Activity
-                      mode={
-                        showCommentActions === comment.id ? "visible" : "hidden"
+                    <div className="commentAndMoreContainer">
+                      {isEditComment && editCommentId === comment.id ?
+                        <EditCommentContainer>
+                          <textarea
+                            dir="auto"
+                            ref={commentTextareaRef}
+                            type="text"
+                            value={editCommentValue}
+                            onChange={(e) =>
+                              setEditCommentValue(e.target.value)
+                            }
+                            disabled={loadingUpdatedComment}
+                          ></textarea>
+                          <div className="btnsContainer">
+                            <button
+                              onClick={() => {
+                                setIsEditComment(false);
+                                setEditCommentFocus(false);
+                              }}
+                              className="cancelEditBtn"
+                            >
+                              Cancel
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                if (oldComment === editCommentValue) {
+                                  setIsUpdateButtonDisabled(true);
+                                  return;
+                                }
+                                onUpdate(comment.id, editCommentValue);
+                              }}
+                              disabled={isUpdateButtonDisabled}
+                              className="updateCommentBtn"
+                            >
+                              {loadingUpdatedComment ? "Updating..." : "Update"}
+                            </button>
+                          </div>
+                        </EditCommentContainer>
+                      : <p dir="auto" className="commentContent">
+                          {" "}
+                          {comment.content}{" "}
+                        </p>
                       }
-                    >
-                      <CommentActionsContainer ref={commentActionsRef}>
-                        <li
-                          role="button"
-                          onClick={() => {
-                            setEditCommentValue(comment.content);
-                            setOldComment(comment.content);
-                            setEditCommentId(comment.id);
-                            setIsEditComment(true);
-                            setShowCommentActions(null);
-                            setEditCommentFocus(true);
-                          }}
-                        >
-                          Edit
-                        </li>
-                        <li
-                          role="button"
-                          onClick={() => {
-                            setOverlayOn(true);
-                            setShowDeleteModel(true);
-                          }}
-                        >
-                          Delete
-                        </li>
-                      </CommentActionsContainer>{" "}
-                    </Activity>
 
-                    <Activity mode={showDeleteModel ? "visible" : "hidden"}>
-                      <ConfirmationModel
-                        title={"Delete Comment"}
-                        subTitle={"This can't be undone"}
-                        actionText={isDeleting ? "Deleting" : "Delete"}
-                        onAction={() => deleteComment(comment.id)}
-                        onCancel={() => {
-                          setOverlayOn(false);
-                          setShowDeleteModel(false);
-                        }}
-                      />
-                    </Activity>
-                  </div>
+                      {comment.user_id === user?.id && (
+                        <div
+                          onClick={() => {
+                            setShowCommentActions((prev) =>
+                              prev === null ? comment.id : null,
+                            );
+                          }}
+                          style={{ cursor: "pointer" }}
+                        >
+                          <More
+                            height={"20px"}
+                            width={"20px"}
+                            color={`var(--text)`}
+                          />
+                        </div>
+                      )}
 
-                  {/* <span
+                      <Activity
+                        mode={
+                          showCommentActions === comment.id ?
+                            "visible"
+                          : "hidden"
+                        }
+                      >
+                        <CommentActionsContainer ref={commentActionsRef}>
+                          <li
+                            role="button"
+                            onClick={() => {
+                              setEditCommentValue(comment.content);
+                              setOldComment(comment.content);
+                              setEditCommentId(comment.id);
+                              setIsEditComment(true);
+                              setShowCommentActions(null);
+                              setEditCommentFocus(true);
+                            }}
+                          >
+                            Edit
+                          </li>
+                          <li
+                            role="button"
+                            onClick={() => {
+                              setOverlayOn(true);
+                              setShowDeleteModel(true);
+                            }}
+                          >
+                            Delete
+                          </li>
+                        </CommentActionsContainer>{" "}
+                      </Activity>
+
+                      <Activity mode={showDeleteModel ? "visible" : "hidden"}>
+                        <ConfirmationModel
+                          title={"Delete Comment"}
+                          subTitle={"This can't be undone"}
+                          actionText={isDeleting ? "Deleting" : "Delete"}
+                          onAction={() => deleteComment(comment.id)}
+                          onCancel={() => {
+                            setOverlayOn(false);
+                            setShowDeleteModel(false);
+                          }}
+                        />
+                      </Activity>
+                    </div>
+
+                    {/* <span
                   className="commentHeart"
                   onClick={() => setHeartColor(!heartColor)}
                 >
                   <Heart width={"20px"} height={"20px"} color={"red"} />
                   233
                 </span> */}
+                  </div>
                 </div>
-              </div>
-            ))
-          }
+              ))
+            }
+          </div>
         </div>
-      </div>
 
-      <div className="commentFormContainer">
-        <form className="commentForm" onSubmit={(e) => e.preventDefault()}>
-          <input
-            dir="auto"
-            type="text"
-            onInvalid={handleInvalid}
-            onInput={handleInput}
-            required
-            name="comment"
-            id="comment"
-            placeholder="add a comment..."
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-          <button
-            style={{
-              opacity: comment ? 1 : 0.7,
-              cursor: comment ? "pointer" : "not-allowed",
-            }}
-            disabled={comment && !addingComment ? false : true}
-            onClick={() => {
-              if (isGuest) {
-                setOverlayOn(true);
-                setShowSignInModel(true);
-                return;
-              }
+        <div className="commentFormContainer">
+          <form className="commentForm" onSubmit={(e) => e.preventDefault()}>
+            <input
+              dir="auto"
+              type="text"
+            
+              onInput={handleInput}
+              required
+              name="comment"
+              id="comment"
+              placeholder="add a comment..."
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <button
+              style={{
+                opacity: comment ? 1 : 0.7,
+                cursor: comment ? "pointer" : "not-allowed",
+              }}
+              disabled={comment && !addingComment ? false : true}
+              onClick={() => {
+                if (isGuest) {
+                  setOverlayOn(true);
+                  setShowSignInModel(true);
+                  return;
+                }
 
-              try {
-                setAddingComment(true);
-                addComment(comment);
-                setComment("");
-              } catch (err) {
-                console.log(err);
-                Alert("err", err, true);
-              } finally {
-                setAddingComment(false);
-              }
-            }}
-          >
-            <Share height={"25px"} width={"25px"} color={"white"} />
-          </button>
-        </form>
-      </div>
-    </section>
+                try {
+                  setAddingComment(true);
+                  addComment(comment);
+                  setComment("");
+                } catch (err) {
+                  console.log(err);
+                  Alert("err", err, true);
+                } finally {
+                  setAddingComment(false);
+                }
+              }}
+            >
+              <Share height={"25px"} width={"25px"} color={"white"} />
+            </button>
+          </form>
+        </div>
+      </section>
     </>
   );
 };

@@ -85,7 +85,7 @@ const Feed = () => {
 
   return (
     <StyledMain>
-      <h2 className="latestUpdates">Latest Updates</h2>
+      <h2 className="latestUpdates">Explore</h2>
       <PostsContainer>
         {loading && !blogs.length ?
           <Loader />

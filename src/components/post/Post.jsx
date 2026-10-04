@@ -2,8 +2,7 @@ import "./Post.css";
 //ICONS
 import Comment from "../../icons/Comment";
 import Heart from "../../icons/Heart";
-import GlobalBookmark from "../../icons/global-bookmark";
-import FilledBookmark from "../../icons/filled-global-bookmark";
+import Bookmark from "../../icons/global-bookmark";
 import Edit from "../../icons/Edit";
 import Delete from "../../icons/delete-icon";
 import Eye from "../../icons/Eye";
@@ -215,6 +214,7 @@ const Post = React.forwardRef(
                   <Heart
                     width={variant === "full" ? "25px" : "10"}
                     height={variant === "full" ? "25px" : "10"}
+                    fill={"none"}
                     color={"black"}
                   />
                   {likeCount}
@@ -224,24 +224,17 @@ const Post = React.forwardRef(
                   <Comment
                     width={variant === "full" ? "25px" : "10"}
                     height={variant === "full" ? "25px" : "10"}
+                    fill={"none"}
                     color={"black"}
                   />
                   {commentCount}
                 </span>
 
                 <span className="bookmark">
-                  {isBookmarked ?
-                    <FilledBookmark
-                      width={variant === "full" ? "25px" : "10"}
+                  <Bookmark  width={variant === "full" ? "25px" : "10"}
                       height={variant === "full" ? "25px" : "10"}
-                      color={`var(--primary)`}
-                    />
-                  : <GlobalBookmark
-                      width={variant === "full" ? "25px" : "10"}
-                      height={variant === "full" ? "25px" : "10"}
-                      color={`var(--primary)`}
-                    />
-                  }
+                      color={`var(--text)`} fill={isBookmarked ? "var(--text)" : "none"} />
+                  
                 </span>
               </div>
             </div>

@@ -1,23 +1,6 @@
 import "./LandingPage.css";
-// COMPONENTS
-import Nav from "../../components/navbar/Nav";
-import Post from "../../components/post/Post";
-// ICONS
-import Menu from "../../icons/Menu";
-import MenuClose from "../../icons/MenuClose";
-import Trusted from "../..//icons/trusted-icon";
-import RightArrow from "../../icons/RightArrow";
-import AccountAdd from "../../icons/AccountAdd";
-import Pen from "../../icons/Pen";
-import Community from "../../icons/Community";
-import Flash from "../../icons/Flash";
-import Facebook from "../../icons/Facebook";
-import X from "../../icons/X";
-import Instagram from "../../icons/Instagram";
-import Linkedin from "../../icons/LinkedIn";
-import Sun from "../../icons/sun";
-import Eye from "../../icons/Eye";
-import Heart from "../../icons/Heart";
+//ICONS
+import Sun from "../../icons/sun"
 import Comment from "../../icons/Comment";
 import Save from "../../icons/global-bookmark";
 // IMAGES
@@ -25,14 +8,12 @@ import logo from "../../images/logo.png";
 import writingIllustration from "../../images/writing-illustration.png";
 import statsIllustration from "../../images/stats-illustration.png";
 // HOOKS
-import useWindowSize from "../../hooks/useWindowSize";
 import useDarkMode from "../../hooks/useDarkMode";
 // REACT & OTHER
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import Loader from "../../components/ui/loader";
-import AlertIcon from "../../icons/alert-icon";
+
 
 const LandingPage = () => {
   // const [menuIcon, setMenuIcon] = useState(true);
@@ -73,6 +54,8 @@ const LandingPage = () => {
   //   };
   // }, []);
 
+ 
+  const setIsGuest = useStoreActions((a) => a.guest.setIsGuest);
   const [scrollPercentage, setScrollPercentage] = useState(0);
 
   useEffect(() => {
@@ -169,7 +152,10 @@ const LandingPage = () => {
               >
                 Start Writing Free{" "}
               </button>
-              <button className="btn2">Explore Feed</button>
+              <button onClick={() => {
+                setIsGuest(true);
+                navigate("/app")
+              }} className="btn2">Explore Feed</button>
             </div>
           </div>
 
@@ -582,8 +568,8 @@ const LandingPage = () => {
             © 2026 All rights reserved. Built with love by a creator for
             creators.
           </p>
-          <p>Terms</p>
-          <p>Privacy </p>
+          <p style={{cursor: "pointer"}} onClick={() => navigate("/terms")} >Terms</p>
+          <p style={{cursor: "pointer"}} onClick={() => navigate("privacy-policy")} >Privacy </p>
 
           {/* <div className="container">
             <div className="rightContainer">

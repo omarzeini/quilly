@@ -208,7 +208,7 @@ pre {
   align-items: flex-end;
   gap: 5px;
 }
-
+/* 
 .post-page-comments {
   fill: #3788fa;
   & path {
@@ -220,7 +220,7 @@ pre {
   & path {
     fill: #3788fa;
   }
-}
+} */
 
 .commentContainer {
   display: grid;

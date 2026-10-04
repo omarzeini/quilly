@@ -19,11 +19,16 @@ import SearchResult from "./pages/search result/SearchResult";
 import RequireAuth from "./components/auth/requireAuth";
 import UpdatePassword from "./pages/Auth/update-password";
 import MyProfilePage from "./pages/app/My profile/myProfile";
+import PrivacyPage from "./pages/privacy/privacy";
+import TermsPage from "./pages/terms/terms"
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+      <Route path="privacy-policy" element={<PrivacyPage />} />
+      <Route path="terms" element={<TermsPage />} />
+
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/auth/update-password" element={<UpdatePassword />} />
 

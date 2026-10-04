@@ -167,7 +167,7 @@ const AppLayout = () => {
           : ""}
 
           <img
-            style={{ cursor: "pointer", borderRadius: "2px" }}
+            style={{ cursor: "pointer", borderRadius: "5px" }}
             onClick={() => navigate("/app")}
             ref={logoRef}
             className="app-logo"
