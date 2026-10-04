@@ -119,7 +119,7 @@ const SharePost = ({ blogId, initialShares, url, title }) => {
             <p className="share-post-status" aria-live="polite">
               {copyStatus}
             </p>
-            <p className="share-post-social-label">Or share on</p>
+            <p className="share-post-social-label">Share on</p>
             <div className="share-post-social-links">
               <a
                 className="share-post-social-link"
