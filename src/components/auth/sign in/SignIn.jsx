@@ -58,7 +58,7 @@ const SignIn = ({ authOption, setShowRecover, setShowSetName }) => {
         setSuccess("");
         return;
       } else {
-        setSuccess("Please check your email for a verification link");
+        setSuccess("Please check your email inbox for a verification link");
       }
     } catch (err) {
       setError(err.message);
@@ -117,6 +117,7 @@ const SignIn = ({ authOption, setShowRecover, setShowSetName }) => {
 
           if (!data?.full_name) {
             setShowSetName(true);
+            setIsGuest(false);
           } else {
             setSuccess("successsfully signed in");
             setIsGuest(false);

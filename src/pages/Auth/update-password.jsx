@@ -5,6 +5,7 @@ import Notify from "../../components/ui/notify";
 import { useState, Activity, useEffect } from "react";
 import supabase from "../../lib/supabase";
 import styled from "styled-components";
+import {  useStoreActions} from "easy-peasy"
 
 const Container = styled.div`
   width: 40%;
@@ -149,6 +150,7 @@ const UpdatePassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [isValidSession, setIsValidSession] = useState(false);
+  const setIsGuest = useStoreActions((a) => a.guest.setIsGuest);
 
   const navigate = useNavigate();
 
@@ -184,6 +186,7 @@ const UpdatePassword = () => {
       }
       setSuccessMsg("Password Updated successsfully");
       setShowSuccess(true);
+      setIsGuest(false);
       navigate("/app/feed");
     } catch (err) {
       setErrMsg(`${err.message} || ${err}, Please try again`);
