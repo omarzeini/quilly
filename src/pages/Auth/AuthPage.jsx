@@ -31,7 +31,7 @@ const AuthPage = () => {
 
   return (
     <>
-      <SEO title={"Sign in"} description={"Sign in to your Trendi Blog account or create a new one to read, save, and interact with posts."}  url={"/ap"}/>
+      <SEO title={"Sign in"} description={"Sign in to your quilly account or create a new one to write, save, and interact with posts."}  url={"/auth"}/>
       
       <main className="authPageMain">
         <Notify />

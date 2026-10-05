@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 
-const SITE_NAME = "Trendi blog";
+const SITE_NAME = "Quilly";
 const SITE_URL = "https://quilly.omarspace.com";
 
 const SEO = ({title, description, image, url, type ="website"}) => {
