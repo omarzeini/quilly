@@ -52,7 +52,7 @@ const PostPage = () => {
   const [commentsLoading, setCommentsLoading] = useState(false);
   const [addingComment, setAddingComment] = useState(false);
   const [showCommentActions, setShowCommentActions] = useState(null);
-  const [showDeleteModel, setShowDeleteModel] = useState(false);
+  const [commentToDeleteId, setCommentToDeleteId] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [editCommentFocus, setEditCommentFocus] = useState(false);
 
@@ -175,7 +175,7 @@ const PostPage = () => {
         `,
         )
         .eq("blog_id", blogId)
-        .order("created_at", { ascending: true });
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
 
@@ -300,21 +300,30 @@ const PostPage = () => {
 
     try {
       setIsDeleting(true);
-      const { error } = await supabase
+      const { data: deletedComment, error } = await supabase
         .from("comments")
         .delete()
         .eq("id", commentId)
-        .eq("user_id", user?.id);
+        .eq("user_id", user?.id)
+        .select("id")
+        .maybeSingle();
       if (error) {
         Alert("err", "Error Deleting Comment:", error.message || error, true);
         console.log("Error Deleting Comment:", error.message);
         return;
       }
 
+      if (!deletedComment) {
+        Alert("err", "Comment could not be deleted. Check your permissions.", true);
+        return;
+      }
+
       Alert("success", "Comment deleted", true);
-      setComments((prev) => prev.filter((comment) => comment.id !== commentId));
+      setComments((prev) =>
+        prev.filter((comment) => comment.id !== deletedComment.id),
+      );
       setOverlayOn(false);
-      setShowDeleteModel(false);
+      setCommentToDeleteId(null);
     } catch (err) {
       Alert("err", "Error Deleting Comment:", err.message || err, true);
       console.log("Error Deleting Comment:", err.message);
@@ -620,7 +629,7 @@ const PostPage = () => {
                             role="button"
                             onClick={() => {
                               setOverlayOn(true);
-                              setShowDeleteModel(true);
+                              setCommentToDeleteId(comment.id);
                             }}
                           >
                             Delete
@@ -628,7 +637,9 @@ const PostPage = () => {
                         </CommentActionsContainer>{" "}
                       </Activity>
 
-                      <Activity mode={showDeleteModel ? "visible" : "hidden"}>
+                      <Activity
+                        mode={commentToDeleteId === comment.id ? "visible" : "hidden"}
+                      >
                         <ConfirmationModel
                           title={"Delete Comment"}
                           subTitle={"This can't be undone"}
@@ -636,7 +647,7 @@ const PostPage = () => {
                           onAction={() => deleteComment(comment.id)}
                           onCancel={() => {
                             setOverlayOn(false);
-                            setShowDeleteModel(false);
+                            setCommentToDeleteId(null);
                           }}
                         />
                       </Activity>

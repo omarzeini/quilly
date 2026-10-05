@@ -97,7 +97,7 @@ const SetName = () => {
     }
 
     if (name.length < 5) {
-      setError("Minimum name length is 5 characters !");
+      setError("Minimum name length is 5 characters ");
       return;
     }
 
